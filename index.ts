@@ -2,6 +2,31 @@ const express = require('express');
 const app = express();
 const http = require('http').Server(app);
 const port = process.env.PORT || 3001;
+const io = require('socket.io')(http, {cors: {origin: true, credentials:true, optionSuccessStatus:200}});
+
+
+
+interface SocketEvents {
+    on:any
+    emit:any
+  }
+  
+  
+    io.on("connection", (socket:SocketEvents) => {   
+  
+      console.log("user connected")
+  
+  
+      // Receiving testing message from client 
+      socket.on("testing_from_client", (text:number) => {
+  
+          console.log("Message from Client to Server: ", text)
+          // Sending answer to client
+          socket.emit("testing_from_server", "OK from server");
+        });
+  
+  })
+
 
 
 http.listen(port, () => {
