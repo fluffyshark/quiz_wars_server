@@ -7,8 +7,8 @@ const io = require('socket.io')(http, {cors: {origin: true, credentials:true, op
 
 
 interface SocketEvents {
-    on:any
-    emit:any
+    on: (event:string, callback: (data: any) => void) => void;
+    emit: (event:string, data: any) => void;
   }
   
   
@@ -25,7 +25,7 @@ interface SocketEvents {
         });
 
         // Receiving points and region destination from user
-      socket.on("user_got_point", (pointData:{user:string, points:number, regionId:number, gameCode:number}) => {
+      socket.on("user_got_point", (pointData:{user:string, points:number, regionId:number, gameCode:number, team:string}) => {
         console.log("user_got_point: ", pointData)
       });
   
@@ -36,3 +36,4 @@ interface SocketEvents {
 http.listen(port, () => {
     console.log(`Socket.IO server running at http://localhost:${port}/`);
   });
+  
