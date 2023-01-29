@@ -12,6 +12,9 @@ import {getIndexByGamecode} from "./utilities/getIndexByGameCode"
 interface SocketEvents {
     on: (event:string, callback: (data: any) => void) => void;
     emit: (event:string, data: any) => void;
+    to(event: string): void;
+    join(event: string): void;
+    id: string
   }
 
   
@@ -20,13 +23,23 @@ io.on("connection", (socket:SocketEvents) => {
   //  console.log("user connected")
   
   
-  // Receiving testing message from client 
-  socket.on("testing_from_client", (text:number) => {
-    console.log("Message from Client to Server: ", text)
-    // Sending answer to client
-    socket.emit("testing_from_server", "OK from server");
-  });
+// Player and host join the same room
+socket.on("join_room", (gameCode) => {
+  socket.join(gameCode); 
+  console.log("socket.id", socket.id)
 
+ /*
+ // If game is ongoing then players who join will immedietly enter game
+  if (gameDataObject[getIndexByGamecode(gameCode)].gameStatus === "game_ongoing") {
+    // Declaring list of players
+    let newPlayerData = gameDataObject[getIndexByGamecode(gameCode)].users
+    // Tell player to start game, sending gameData
+    io.to(socket.id).emit("start_game", newPlayerData); 
+  }
+  */
+ 
+});
+  
 
   // Receiving points and region destination from user
   socket.on("user_got_point", (pointData:{userName:string, points:number, regionId:number, gameCode:number, team:string}) => {
