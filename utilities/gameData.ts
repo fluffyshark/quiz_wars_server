@@ -7,6 +7,7 @@ export interface GameData {
     }[],
     gameCode: number,
     gameStatus: string,
+    victoryPoints: {red_team:number, blue_team:number, yellow_team:number, green_team:number},
     regions: {
         id: number,
         points_red: number,
@@ -25,6 +26,7 @@ export let gameDataObject: GameData[] = [{
     gameCode: 123456789,
     gameStatus: '',
     users: [],
+    victoryPoints: {red_team:0, blue_team:0, yellow_team:0, green_team:0},
     regions: [ 
     {id: 0, points_red: 0, points_blue: 0, points_yellow: 0, points_green: 0, your_points: 0, controlledBy: "No Team"},
     {id: 1, points_red: 0, points_blue: 0, points_yellow: 0, points_green: 0, your_points: 0, controlledBy: "No Team"},
