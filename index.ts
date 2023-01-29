@@ -8,13 +8,13 @@ import {gameDataObject} from "./utilities/gameData"
 import {updateRegionPoints} from "./utilities/updateGameData"
 import {getIndexByGamecode} from "./utilities/getIndexByGameCode"
 
+
 interface SocketEvents {
     on: (event:string, callback: (data: any) => void) => void;
     emit: (event:string, data: any) => void;
   }
 
-
-
+  
 io.on("connection", (socket:SocketEvents) => {   
   
   //  console.log("user connected")
