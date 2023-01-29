@@ -39,3 +39,23 @@ export function updateRegionPoints(data: any) {
   
 
 
+  interface CalVictoryPoints {
+    red: number 
+    blue: number
+    yellow: number
+    green: number
+  }
+
+  
+  export function calculateVictoryPoints(gameCode:number): CalVictoryPoints {
+    let accumulatedPoints = {red: 0, blue: 0, yellow: 0, green: 0}
+
+    gameDataObject[getIndexByGamecode(gameCode)].regions.map((region) => {
+      if (region.controlledBy === "red") {accumulatedPoints.red += 1}
+      if (region.controlledBy === "blue") {accumulatedPoints.blue += 1}
+      if (region.controlledBy === "yellow") {accumulatedPoints.yellow += 1}
+      if (region.controlledBy === "green") {accumulatedPoints.green += 1}
+    })
+
+    return accumulatedPoints
+  }

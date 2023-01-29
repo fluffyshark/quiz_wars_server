@@ -20,6 +20,7 @@ export interface GameData {
 }
 
   
+
   
 // Declare array that will hold all game data
 export let gameDataObject: GameData[] = [{
