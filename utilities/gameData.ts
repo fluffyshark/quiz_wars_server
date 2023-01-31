@@ -1,12 +1,14 @@
 export interface GameData {
     users: {
-        userName: string,
+        userId: string
+        username: string,
         points: number,
-        gameCode: number,
+        gameCode: string,
         team: string
     }[],
-    gameCode: number,
+    gameCode: string,
     gameStatus: string,
+    hostId:string,
     victoryPoints: {red_team:number, blue_team:number, yellow_team:number, green_team:number},
     regions: {
         id: number,
@@ -24,11 +26,32 @@ export interface GameData {
   
 // Declare array that will hold all game data
 export let gameDataObject: GameData[] = [{
-    gameCode: 123456789,
+    gameCode: "123456789",
     gameStatus: '',
+    hostId: "",
     users: [],
     victoryPoints: {red_team:0, blue_team:0, yellow_team:0, green_team:0},
-    regions: [ 
+    regions: [{id: 0, points_red: 0, points_blue: 0, points_yellow: 0, points_green: 0, your_points: 0, controlledBy: "No Team"}]
+}]
+
+
+
+// Initiating new game by creating new game object in gameDataObject
+export function newGameData(hostId:string, gameCode:string) {
+    gameDataObject.push({
+        gameCode,
+        gameStatus: 'ONBOARDING_PLAYERS',
+        users: [],
+        hostId,
+        victoryPoints: {red_team:0, blue_team:0, yellow_team:0, green_team:0},
+        regions: regionData
+    })
+}
+
+
+
+// RegionsData are to be pushed into gameDataObject for every new game
+let regionData = [
     {id: 0, points_red: 0, points_blue: 0, points_yellow: 0, points_green: 0, your_points: 0, controlledBy: "No Team"},
     {id: 1, points_red: 0, points_blue: 0, points_yellow: 0, points_green: 0, your_points: 0, controlledBy: "No Team"},
     {id: 2, points_red: 0, points_blue: 0, points_yellow: 0, points_green: 0, your_points: 0, controlledBy: "No Team"},
@@ -106,7 +129,4 @@ export let gameDataObject: GameData[] = [{
     {id: 68, points_red: 0, points_blue: 0, points_yellow: 0, points_green: 0, your_points: 0, controlledBy: "No Team"},
     {id: 69, points_red: 0, points_blue: 0, points_yellow: 0, points_green: 0, your_points: 0, controlledBy: "No Team"},
     {id: 70, points_red: 0, points_blue: 0, points_yellow: 0, points_green: 0, your_points: 0, controlledBy: "No Team"},
-    ]
-}]
-
-
+]

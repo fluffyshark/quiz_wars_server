@@ -9,9 +9,11 @@ export function updateRegionPoints(data: any) {
         if (data.team === "Blue") {region.points_blue += 1}
         if (data.team === "Yellow") {region.points_yellow += 1}
         if (data.team === "Green") {region.points_green += 1}
+        console.log("region where to add points", region);
         region.controlledBy = updateRegionControlledBy(region)
         console.log("region where to add points", region);
       }
+      console.log("updateRegionPoints");
     });
   }
 
@@ -47,7 +49,7 @@ export function updateRegionPoints(data: any) {
   }
 
   
-  export function calculateVictoryPoints(gameCode:number): CalVictoryPoints {
+  export function calculateVictoryPoints(gameCode:string): CalVictoryPoints {
     let accumulatedPoints = {red: 0, blue: 0, yellow: 0, green: 0}
 
     gameDataObject[getIndexByGamecode(gameCode)].regions.map((region) => {
