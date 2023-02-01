@@ -48,6 +48,15 @@ io.on("connection", (socket:SocketEvents) => {
   
   });
 
+  
+
+  socket.on("host_starting_game", (gameCode) => { 
+    // Changing game status to from "GAME_ONBOARDING" into "GAME ACTIVE", game status is primarly 
+    // used for allowing late joining users to directly enter game instead of being stuck in lobby
+    gameDataObject[getIndexByGamecode(gameCode)].gameStatus = "GAME_ACTIVE"
+    // Telling all users in game (room) that the game has started
+    io.in(gameCode).emit("host_has_started_game"); 
+  })
 
 
   // Send users a all gameCodes, to validate their game code input, to make sure that they enter a socket room created by host 
