@@ -86,7 +86,7 @@ io.on("connection", (socket:SocketEvents) => {
     // Adds user point to GameData | ./utilities/updateGameData.ts
     updateRegionPoints(pointData)
     // Send updated regions part of GameData to users | Will later be all users in a room based on gameCode
-    socket.emit("send_gamedata_to_users", gameDataObject[getIndexByGamecode(pointData.gameCode)].regions);
+    io.in(pointData.gameCode).emit("send_gamedata_to_users", gameDataObject[getIndexByGamecode(pointData.gameCode)].regions);
 
     console.log("user_got_point: ", pointData)
   });
