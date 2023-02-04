@@ -5,7 +5,7 @@ const port = process.env.PORT || 3001;
 const io = require('socket.io')(http, {cors: {origin: true, credentials:true, optionSuccessStatus:200}});
 
 import {gameDataObject, newGameData} from "./utilities/gameData"
-import {updateRegionPoints, calculateVictoryPoints} from "./utilities/updateGameData"
+import {updateRegionPoints} from "./utilities/updateGameData"
 import {getIndexByGamecode} from "./utilities/getIndexByGameCode"
 
 
@@ -86,20 +86,13 @@ io.on("connection", (socket:SocketEvents) => {
     // Adds user point to GameData | ./utilities/updateGameData.ts
     updateRegionPoints(pointData)
     // Send updated regions part of GameData to users | Will later be all users in a room based on gameCode
-    io.in(pointData.gameCode).emit("send_gamedata_to_users", gameDataObject[getIndexByGamecode(pointData.gameCode)].regions);
+    io.in(pointData.gameCode).emit("send_gamedata_to_users", gameDataObject[getIndexByGamecode(pointData.gameCode)].regions, pointData.gameCode);
 
     console.log("user_got_point: ", pointData)
   });
 
-
-  // Receiving request from client host every 60 seconds to calculate and send victory points to all users in game   
-  socket.on("requesting_victory_points", (gameCode:string) => {
-    // Calculating victory points from all regions in the game
-    const victoryPoints = calculateVictoryPoints(gameCode)
-    // Sending answer to client
-    socket.emit("sending_victory_points", victoryPoints);
-  });
   
+
 })
 
 

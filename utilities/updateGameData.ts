@@ -13,10 +13,10 @@ export function updateRegionPoints(data: any) {
         region.controlledBy = updateRegionControlledBy(region)
         console.log("region where to add points", region);
       }
-      console.log("updateRegionPoints");
     });
   }
 
+  // ADD VICTORY POINT COUNT TO UPDATE REGION
 
 
   function updateRegionControlledBy(controlledBy: {points_red: number, points_blue: number, points_yellow: number, points_green: number}): string {
@@ -39,25 +39,3 @@ export function updateRegionPoints(data: any) {
     return highestKey;
   }
   
-
-
-  interface CalVictoryPoints {
-    red: number 
-    blue: number
-    yellow: number
-    green: number
-  }
-
-  
-  export function calculateVictoryPoints(gameCode:string): CalVictoryPoints {
-    let accumulatedPoints = {red: 0, blue: 0, yellow: 0, green: 0}
-
-    gameDataObject[getIndexByGamecode(gameCode)].regions.map((region) => {
-      if (region.controlledBy === "red") {accumulatedPoints.red += 1}
-      if (region.controlledBy === "blue") {accumulatedPoints.blue += 1}
-      if (region.controlledBy === "yellow") {accumulatedPoints.yellow += 1}
-      if (region.controlledBy === "green") {accumulatedPoints.green += 1}
-    })
-
-    return accumulatedPoints
-  }
