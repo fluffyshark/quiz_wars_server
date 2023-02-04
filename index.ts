@@ -81,6 +81,16 @@ io.on("connection", (socket:SocketEvents) => {
   });
 
 
+  // When user change team, it's changed in gameDataObject, then a notice is sent to host
+  socket.on("user_changing_team", (userInfo: {username:string, gameCode:string, team:string, previousTeam:string}) => { 
+    gameDataObject[getIndexByGamecode(userInfo.gameCode)].users.map((user) => {
+      if (user.username === userInfo.username) {user.team = userInfo.team}
+      socket.to(userInfo.gameCode).emit("from_server_user_changed_team", userInfo);
+    })
+    console.log("user changed team", gameDataObject[getIndexByGamecode(userInfo.gameCode)].users)
+  });
+
+
   // Receiving points and region destination from user
   socket.on("user_got_point", (pointData:{userName:string, points:number, regionId:number, gameCode:string, team:string}) => {
     // Adds user point to GameData | ./utilities/updateGameData.ts
