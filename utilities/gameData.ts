@@ -8,6 +8,7 @@ export interface GameData {
     }[],
     gameCode: string,
     gameStatus: string,
+    gameType: string,
     hostId:string,
     victoryPoints: {red_team:number, blue_team:number, yellow_team:number, green_team:number},
     regions: {
@@ -28,6 +29,7 @@ export interface GameData {
 export let gameDataObject: GameData[] = [{
     gameCode: "123456789",
     gameStatus: '',
+    gameType: '',
     hostId: "",
     users: [],
     victoryPoints: {red_team:0, blue_team:0, yellow_team:0, green_team:0},
@@ -37,10 +39,11 @@ export let gameDataObject: GameData[] = [{
 
 
 // Initiating new game by creating new game object in gameDataObject
-export function newGameData(hostId:string, gameCode:string) {
+export function newGameData(hostId:string, gameCode:string, gameType:string) {
     gameDataObject.push({
         gameCode,
         gameStatus: 'ONBOARDING_PLAYERS',
+        gameType,
         users: [],
         hostId,
         victoryPoints: {red_team:0, blue_team:0, yellow_team:0, green_team:0},

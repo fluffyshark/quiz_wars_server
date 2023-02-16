@@ -28,11 +28,12 @@ io.on("connection", (socket:SocketEvents) => {
 
   
   // Host create socket room (game code) and a new game data object
-  socket.on("host_create_room", (gameCode) => {
+  socket.on("host_create_room", (gameData) => {
     // Host join (and create) room
-    socket.join(gameCode); 
+    socket.join(gameData.gameCode); 
+    console.log("gameDATA", gameData)
     // Creating new game data object for the game
-    newGameData(socket.id, gameCode)
+    newGameData(socket.id, gameData.gameCode, gameData.gameType)
     console.log(gameDataObject)
     console.log(gameDataObject.length)
 
@@ -73,11 +74,13 @@ io.on("connection", (socket:SocketEvents) => {
     socket.join(userInfo.gameCode); 
     // Sending joined player data to host, to be used to display player name on screen
     socket.to(userInfo.gameCode).emit("player_accepted", userInfo);
-    // Sending player their socket id
-  //  io.to(socket.id).emit("sending_playerID", socket.id);
     // Adding joined player to game data
     gameDataObject[getIndexByGamecode(userInfo.gameCode)].users.push({userId: socket.id, username: userInfo.username, points: 0, gameCode: userInfo.gameCode, team: userInfo.team})
     console.log("player_joining", gameDataObject[getIndexByGamecode(userInfo.gameCode)].users)
+    // Getting game type for player to know which of the four game type to present to players
+    const gameType = gameDataObject[getIndexByGamecode(userInfo.gameCode)].gameType
+    // Sending player game type and their socket id
+    io.to(socket.id).emit("sending_gameType_and_playerID", {socketID:socket.id, gameType:gameType});
   });
 
 
